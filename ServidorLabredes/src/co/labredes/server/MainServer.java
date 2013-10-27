@@ -14,7 +14,7 @@ public class MainServer {
 	
 	public static final int PUERTO = 9999;
 
-	public static final boolean PROTECT_FROM_DoS = true;
+	public static final boolean PROTECT_FROM_DoS = false;
 
 	private static final int TAMANO_POOL = 4;
 	
@@ -35,6 +35,7 @@ public class MainServer {
 	
 	
 
+	@SuppressWarnings("unused")
 	public MainServer()
 	{
 		console("Empezando servidor en puerto " + PUERTO);
