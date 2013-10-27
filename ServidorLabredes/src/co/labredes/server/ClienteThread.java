@@ -1,8 +1,10 @@
 package co.labredes.server;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,7 +26,10 @@ public class ClienteThread extends Thread {
 	private long id;
 
 	public Object objeto;
-	private String nombreArchivo;
+	
+	private String pathArchivo;
+	private String pathConvertido;
+	private String fileName;
 
 	public ClienteThread(MainServer main, SSLSocket clienteSocket, long contador) throws Exception {
 
@@ -59,13 +64,14 @@ public class ClienteThread extends Thread {
 	public void send(int comando)
 	{
 		out.println(comando);
-		console("S -> " + comando);
+		//console("S -> " + comando);
 	}
+	
 
+	
 	public void sendContinue()
 	{
-		out.println(Constantes.CONTINUE);
-		console("S -> " + Constantes.CONTINUE);
+		send(Constantes.CONTINUE);
 	}
 
 	public void error(int type) throws Exception
@@ -81,7 +87,7 @@ public class ClienteThread extends Thread {
 	{
 		String msg = in.readLine();
 		String response = "";
-		console("C -> " + msg);
+		//console("C -> " + msg);
 
 		if(msg.startsWith(name) && msg.contains(Constantes.SEPARATOR))
 		{
@@ -117,10 +123,12 @@ public class ClienteThread extends Thread {
 			
 			send(Constantes.FILE_RECIEVED);
 			
-			console("Recibido archivo " + nombreArchivo);
+			console("Recibido archivo " + pathArchivo);
+			
+			long inicioCola = System.currentTimeMillis();
 			
 			// Se crea el convertidor
-			Convertidor convertidor = new Convertidor(this, nombreArchivo, "./data/"+ id +"_Wildlife.mp4");
+			Convertidor convertidor = new Convertidor(this, pathArchivo, pathConvertido);
 
 			// se envía a convertir, encolandonos
 			server.convertir(convertidor);
@@ -130,10 +138,15 @@ public class ClienteThread extends Thread {
 			int resultado = convertidor.darResultado();
 
 			send(resultado);
+			
+			long finCola = System.currentTimeMillis();
 
-			String tiempoCola = getParameter(Constantes.TIME_WAITED);
-			getParameter(Constantes.TIME_WAITED);
-			server.escribirLog(id + "\t" +tiempoConectando + "\t" + tiempoCola);
+			transmitir();
+
+			//String tiempoCola = getParameter(Constantes.TIME_WAITED);
+
+			
+			server.escribirLog(id + "\t" +tiempoConectando + "\t" + (finCola-inicioCola));
 
 
 		} catch (Exception e) {
@@ -152,8 +165,11 @@ public class ClienteThread extends Thread {
 	@SuppressWarnings("unused")
 	private void recibirArchivo() throws Exception 
 	{
-		nombreArchivo = "./data/"+ id +"_" + getParameter(Constantes.FILE_NAME)+".avi";
-		int tamano = Integer.parseInt(getParameter(Constantes.FILE_SIZE));
+		fileName = getParameter(Constantes.FILE_NAME);
+		pathArchivo 		= "./data/"+ id +"_" + fileName + ".avi";
+		pathConvertido 	= "./data/"+ id +"_" + fileName + ".mp4";
+		
+		//int tamano = Integer.parseInt(getParameter(Constantes.FILE_SIZE));
 		
 		
 		 int tamanoBuffer = 0;
@@ -164,7 +180,7 @@ public class ClienteThread extends Thread {
 	        try {
 	           is = socket.getInputStream();
 	           tamanoBuffer = socket.getReceiveBufferSize();
-	           String direccion = nombreArchivo;
+	           String direccion = pathArchivo;
 		       fos = new FileOutputStream(direccion);
 		       bos = new BufferedOutputStream(fos);
 		      // console("Se creó el archivo, ahora se debe escribir");
@@ -190,6 +206,39 @@ public class ClienteThread extends Thread {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 		
+	}
+	
+private void transmitir() throws Exception {
+		
+
+		File archivoAVI = new File(pathConvertido);
+
+		// Get the size of the file
+		long longitud = archivoAVI.length();
+		if (longitud > Integer.MAX_VALUE) {
+			System.out.println("El archivo es demasiado largo.");
+		}
+		
+		
+		
+		// SE EMPIEZA EL ENVIO DEL ARCHIVO
+		
+	    byte[] bytesAVI = new byte[(int) longitud];
+	    FileInputStream fis = new FileInputStream(archivoAVI);
+	    BufferedInputStream bis = new BufferedInputStream(fis);
+	    BufferedOutputStream outfile = new BufferedOutputStream(socket.getOutputStream());
+
+	    int cantidadAVI;
+
+	    while ((cantidadAVI = bis.read(bytesAVI)) > 0) {
+	    	outfile.write(bytesAVI, 0, cantidadAVI);		       
+	    }
+
+	    outfile.flush();
+	
+	    bis.close();
+	    //outfile.close();
+
 	}
 
 	public long darId()

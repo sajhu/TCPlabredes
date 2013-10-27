@@ -5,6 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
@@ -19,7 +22,7 @@ public class ConexionServer extends Thread {
 	private static final String HOST = "localhost";
 	private static final int PORT = 9999;
 
-	public static final String nombreArchivo = "Wildlife";
+	public static String nombreArchivo = "Wildlife";
 
 
 	private SSLSocket socket;
@@ -99,12 +102,14 @@ public class ConexionServer extends Thread {
 			
 			finEspera = System.currentTimeMillis();
 			
+			recibirArchivo();
+			
 			out = new PrintWriter(socket.getOutputStream(), true);
 
 			comando(Constantes.TIME_WAITED, (finEspera - finCola));
-			comando(Constantes.TIME_WAITED, (finEspera - finCola));
+	
 			
-			getResponse(Constantes.CLOSING_CONNECTION);
+			//getResponse(Constantes.CLOSING_CONNECTION);
 
 
 		}
@@ -115,6 +120,49 @@ public class ConexionServer extends Thread {
 		}
 
 		cerrar();
+		
+	}
+	
+	
+	@SuppressWarnings("unused")
+	private void recibirArchivo() throws Exception 
+	{
+		String pathArchivo = "./data/" + nombreArchivo+".mp4";
+		
+		
+		 int tamanoBuffer = 0;
+	        InputStream is = null;
+	        FileOutputStream fos = null;
+	        BufferedOutputStream bos = null;
+	        
+	        try {
+	           is = socket.getInputStream();
+	           tamanoBuffer = socket.getReceiveBufferSize();
+	           String direccion = pathArchivo;
+		       fos = new FileOutputStream(direccion);
+		       bos = new BufferedOutputStream(fos);
+		      // System.out.println("Se creó el archivo, ahora se debe escribir");
+		       File archivoAVI = new File(direccion);
+		        
+		    } catch (FileNotFoundException ex) {
+		    	System.out.println("No se encontró el archivo especificado ");
+		    }
+
+		    byte[] bytesRecibidos = new byte[tamanoBuffer];
+
+		    int cantidad=0;
+		    int entrada = 0;
+		    while ((cantidad = is.read(bytesRecibidos)) > 0 && entrada<2815 ) {
+		        bos.write(bytesRecibidos, 0, cantidad);			       
+		       // System.out.println("Está escribiendo cantidad " + cantidad + " entrada: " + entrada);
+			    bos.flush();
+			    entrada++;
+
+		    }
+		    
+		    bos.close();
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
 		
 	}
 
@@ -130,7 +178,7 @@ public class ConexionServer extends Thread {
 			System.out.println("El archivo es demasiado largo.");
 		}
 		
-		comando(Constantes.FILE_SIZE, longitud);
+		//comando(Constantes.FILE_SIZE, longitud);
 		
 		
 		// SE EMPIEZA EL ENVIO DEL ARCHIVO
@@ -149,6 +197,7 @@ public class ConexionServer extends Thread {
 	    outfile.flush();
 	
 	    bis.close();
+	    //outfile.close();
 
 	}
 
