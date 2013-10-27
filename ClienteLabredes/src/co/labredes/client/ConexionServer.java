@@ -116,7 +116,7 @@ public class ConexionServer extends Thread {
 		catch(Exception e)
 		{
 			System.out.println("ERROR run: " + e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		cerrar();
