@@ -10,7 +10,6 @@ import it.sauronsoftware.jave.VideoSize;
 
 import java.io.File;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class Convertidor extends Thread {
 
@@ -61,9 +60,9 @@ public class Convertidor extends Thread {
 	}
 	
 	
-	public static File encodeMP4(String ori, String dest) throws IllegalArgumentException, InputFormatException, EncoderException
+	public File encodeMP4(String ori, String dest) throws IllegalArgumentException, InputFormatException, EncoderException
 	{
-		System.out.println("DESDE: " + ori + " hacia " + dest);
+		System.out.println("		P"+ id +": DESDE: " + ori + " hacia " + dest);
 		File source = new File(ori);
 		File mp4File = new File(dest);
 

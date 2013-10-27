@@ -4,15 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 import javax.net.ssl.SSLSocket;
 
 public class ClienteThread extends Thread {
-	
-	private long inicioConexion;
-	private long aceptacionCola;
-	private long finalizacion;
 	
 	private SSLSocket socket;
 	private BufferedReader in;
@@ -111,7 +106,7 @@ public class ClienteThread extends Thread {
 	        	
 	        	//TODO recibir el archivo y darle los paths unicos al convertidor
 	        	sendContinue();
-	        	 String tiempo = getParameter(Constantes.TIME_QUEUED);
+	        	 String tiempo = getParameter(Constantes.TIME_CONNECTING);
 	        	 
 	        	 
 	        	// Se crea el convertidor

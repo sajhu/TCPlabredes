@@ -16,7 +16,7 @@ public class Constantes {
 	
 	public static final String SEPARATOR = ":::";
 	public static final String REQUEST_CONVERT = "CONVERT SERVICE REQUEST";
-	public static final String TIME_QUEUED = "QUEUE";
+	public static final String TIME_CONNECTING = "TCON";
 	public static final String TIME_WAITED = "WAITED";
 	
 	// ERRORES

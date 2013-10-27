@@ -12,7 +12,7 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class ConexionServer extends Thread {
 	
-	private static final String HOST = "157.253.201.154";
+	private static final String HOST = "localhost";
 	private static final int PORT = 9999;
 	
 	
@@ -71,7 +71,7 @@ public class ConexionServer extends Thread {
 		   	// ya nos llegó el continue
 	    	 finCola = System.currentTimeMillis();
 	    	 
-	    	 out.println("QUEUE:::" + (finCola - inicio));
+	    	 out.println("TCON:::" + (finCola - inicio));
 	    	 // transmitimos
 	    	 // transmitir();
 	    	 

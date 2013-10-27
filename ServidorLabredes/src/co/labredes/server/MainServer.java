@@ -2,7 +2,6 @@ package co.labredes.server;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 
 import javax.net.ssl.SSLServerSocket;
@@ -17,7 +16,7 @@ public class MainServer {
 
 	public static final boolean PROTECT_FROM_DoS = true;
 
-	private static final int TAMANO_POOL = 20;
+	private static final int TAMANO_POOL = 4;
 	
 	private static final String LOG_PATH = "./data/";
 
@@ -124,6 +123,7 @@ public class MainServer {
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
