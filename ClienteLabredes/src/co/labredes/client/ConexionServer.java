@@ -8,10 +8,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-
 import co.labredes.common.*;
-
-
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -55,16 +52,31 @@ public class ConexionServer extends Thread {
 
 			System.out.println("Connection established.");
 
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("ERROR constructor: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		
+
+	}
+	
+	@Override
+	public void run() {
+		super.run();
+		
+		try
+		{
+
 			// tenemos conexión, empezamos protocolo
 
 			comando(Constantes.REQUEST_CONVERT, 1);
 
-			String respuestaServidor ="";
-
-
-
-			while(!in.readLine().equals("0")) // esperamos a que nos den permiso
-			{ }
+			getResponse(Constantes.CONTINUE);
+	
 
 			// ya nos llegó el continue
 			finCola = System.currentTimeMillis();
@@ -74,30 +86,35 @@ public class ConexionServer extends Thread {
 			// transmitimos
 			transmitir();
 
-			respuestaServidor =  in.readLine(); 
-			System.out.println(respuestaServidor);
-			if(!respuestaServidor.equals("2"))
+			if(!getResponse(Constantes.FILE_RECIEVED))
 				System.out.println("el servidor no lo recibió");
 			
 			// Esperamos la cola de conversión
 			
-			respuestaServidor = in.readLine(); // resultado de la conversión
-			System.out.println(respuestaServidor);
-			finEspera = System.currentTimeMillis();
-			System.out.println("WAITED:::" + (finEspera - finCola));
 			
+			// resultado de la conversión			
+			if(!getResponse(Constantes.CONVERTION_FINISHED))
+				System.out.println("el servidor no lo convirtió bien");
+			
+			
+			finEspera = System.currentTimeMillis();
+			
+			out = new PrintWriter(socket.getOutputStream(), true);
+
 			comando(Constantes.TIME_WAITED, (finEspera - finCola));
+			
+			getResponse(Constantes.CLOSING_CONNECTION);
 
 
 		}
 		catch(Exception e)
 		{
-			System.out.println("ERROR catch: " + e.getMessage());
-			//e.printStackTrace();
+			System.out.println("ERROR run: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		cerrar();
-
+		
 	}
 
 	private void transmitir() throws Exception {
@@ -129,8 +146,7 @@ public class ConexionServer extends Thread {
 	    }
 
 	    outfile.flush();
-		
-	    outfile.close();
+	
 	    bis.close();
 
 	}
@@ -152,6 +168,17 @@ public class ConexionServer extends Thread {
 		out.println(comando + Constantes.SEPARATOR + valorI);
 		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorI);
 
+	}
+	
+	public boolean getResponse(int comando) throws Exception
+	{
+		String msg = in.readLine();
+		System.out.println("RECIBIDO: " + msg);
+
+		if(msg.equals("" + comando))
+			return true;
+		else 
+			return false;
 	}
 	
 	public void cerrar(){

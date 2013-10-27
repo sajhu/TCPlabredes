@@ -11,6 +11,8 @@ public class Constantes {
 	public static final int FILE_RECIEVED_FAILED = 3;
 	public static final int CONVERTION_FINISHED = 4;
 	public static final int CONVERTION_FAILED = 5;
+	public static final int CLOSING_CONNECTION = 10;
+	
 	
 	
 	public static final int ERROR_500 = 500;

@@ -41,6 +41,7 @@ public class ClienteThread extends Thread {
 
 	public void cerrar()
 	{
+		send(Constantes.CLOSING_CONNECTION);
 
 		try {
 			out.close();
@@ -135,12 +136,9 @@ public class ClienteThread extends Thread {
 			server.escribirLog(id + "\t" +tiempoConectando + "\t" + tiempoCola);
 
 
-
-
-
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			//e.printStackTrace();
 
 			send(Constantes.ERROR_500);
 			console("ERROR thread: " + e.getMessage());

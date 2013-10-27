@@ -91,7 +91,12 @@ public class MainServer {
 				 }
 			}
 			 
-		} catch (Exception e) {
+		} 
+		catch (java.net.BindException e)
+		{
+			console("Puerto ya está en uso");
+		}
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
