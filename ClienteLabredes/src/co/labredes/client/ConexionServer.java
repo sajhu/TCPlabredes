@@ -39,7 +39,6 @@ public class ConexionServer extends Thread {
 
 		try
 		{
-			System.out.println("Conectando al servidor " + HOST + ":" + PORT);
 			inicio = System.currentTimeMillis();
 
 			SSLSocketFactory factorySSL = (SSLSocketFactory)SSLSocketFactory.getDefault(); 
@@ -52,8 +51,9 @@ public class ConexionServer extends Thread {
 
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+			System.out.println("Conectado al servidor " + HOST + ":" + PORT);
 
-			System.out.println("Connection established.");
+//			System.out.println("Connection established.");
 
 
 		}
@@ -108,7 +108,7 @@ public class ConexionServer extends Thread {
 
 			comando(Constantes.TIME_WAITED, (finEspera - finCola));
 	
-			
+			System.out.println("Archivo convertido con éxito");
 			//getResponse(Constantes.CLOSING_CONNECTION);
 
 
@@ -204,26 +204,26 @@ public class ConexionServer extends Thread {
 	private void comando(String comando, String valor)
 	{
 		out.println(comando + Constantes.SEPARATOR + valor);
-		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valor);
+//		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valor);
 
 	}
 	private void comando(String comando, long valorL)
 	{
 		out.println(comando + Constantes.SEPARATOR + valorL);
-		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorL);
+//		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorL);
 
 	}
 	private void comando(String comando, int valorI)
 	{
 		out.println(comando + Constantes.SEPARATOR + valorI);
-		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorI);
+//		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorI);
 
 	}
 	
 	public boolean getResponse(int comando) throws Exception
 	{
 		String msg = in.readLine();
-		System.out.println("RECIBIDO: " + msg);
+//		System.out.println("RECIBIDO: " + msg);
 
 		if(msg.equals("" + comando))
 			return true;
@@ -233,7 +233,7 @@ public class ConexionServer extends Thread {
 	
 	public void cerrar(){
 		try {
-			System.out.println("Conexión terminada");
+//			System.out.println("Conexión terminada");
 			socket.close();
 		} catch (Exception e) {
 			// SE FORZA EL CIERRE DE SESIÓN

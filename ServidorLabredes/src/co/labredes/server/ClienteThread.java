@@ -139,6 +139,9 @@ public class ClienteThread extends Thread {
 
 			send(resultado);
 			
+			(new File(pathArchivo)).delete();
+
+			
 			long finCola = System.currentTimeMillis();
 
 			transmitir();
@@ -147,6 +150,8 @@ public class ClienteThread extends Thread {
 
 			
 			server.escribirLog(id + "\t" +tiempoConectando + "\t" + (finCola-inicioCola));
+			
+			(new File(pathConvertido)).delete();
 
 
 		} catch (Exception e) {
