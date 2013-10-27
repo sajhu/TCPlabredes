@@ -57,7 +57,7 @@ public class ConexionServer extends Thread {
 		catch(Exception e)
 		{
 			System.out.println("ERROR constructor: " + e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		
@@ -101,6 +101,7 @@ public class ConexionServer extends Thread {
 			
 			out = new PrintWriter(socket.getOutputStream(), true);
 
+			comando(Constantes.TIME_WAITED, (finEspera - finCola));
 			comando(Constantes.TIME_WAITED, (finEspera - finCola));
 			
 			getResponse(Constantes.CLOSING_CONNECTION);

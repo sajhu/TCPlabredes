@@ -89,7 +89,7 @@ public class ClienteThread extends Thread {
 		}
 		else
 		{
-			error(Constantes.INVALID_PROTOCOL);
+			//error(Constantes.INVALID_PROTOCOL);
 		}
 
 		return response;
@@ -120,7 +120,7 @@ public class ClienteThread extends Thread {
 			console("Recibido archivo " + nombreArchivo);
 			
 			// Se crea el convertidor
-			Convertidor convertidor = new Convertidor(this, "./data/Wildlife.avi", "./data/"+ id +"-wildlifeNew.mp4");
+			Convertidor convertidor = new Convertidor(this, nombreArchivo, "./data/"+ id +"_Wildlife.mp4");
 
 			// se envía a convertir, encolandonos
 			server.convertir(convertidor);
@@ -132,7 +132,7 @@ public class ClienteThread extends Thread {
 			send(resultado);
 
 			String tiempoCola = getParameter(Constantes.TIME_WAITED);
-
+			getParameter(Constantes.TIME_WAITED);
 			server.escribirLog(id + "\t" +tiempoConectando + "\t" + tiempoCola);
 
 
@@ -167,7 +167,7 @@ public class ClienteThread extends Thread {
 	           String direccion = nombreArchivo;
 		       fos = new FileOutputStream(direccion);
 		       bos = new BufferedOutputStream(fos);
-		       console("Se creó el archivo, ahora se debe escribir");
+		      // console("Se creó el archivo, ahora se debe escribir");
 		       File archivoAVI = new File(direccion);
 		        
 		    } catch (FileNotFoundException ex) {
@@ -178,7 +178,6 @@ public class ClienteThread extends Thread {
 
 		    int cantidad=0;
 		    int entrada = 0;
-		    console("Is" + is);
 		    while ((cantidad = is.read(bytesRecibidos)) > 0 && entrada<2815 ) {
 		        bos.write(bytesRecibidos, 0, cantidad);			       
 		        //console("Está escribiendo cantidad " + cantidad + " entrada: " + entrada);
@@ -186,7 +185,10 @@ public class ClienteThread extends Thread {
 			    entrada++;
 
 		    }
-		
+		    
+		    bos.close();
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
 		
 	}
 

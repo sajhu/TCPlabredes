@@ -47,6 +47,10 @@ public class MainServer {
 		
 		console("Registrando log en " + logName);
 		
+		File dir = new File("./data/");
+		for(File old: dir.listFiles()) old.delete();
+
+		
 		workQueue = new WorkQueue(TAMANO_POOL);    
 		console("Inicializado pool de conversión de " + TAMANO_POOL + " workers.");
 		
