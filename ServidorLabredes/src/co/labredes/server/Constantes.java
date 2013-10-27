@@ -15,7 +15,7 @@ public class Constantes {
 	// PETICIONES del CLIENTE
 	
 	public static final String SEPARATOR = ":::";
-	public static final String REQUEST_CONVERT = "CONVERT SERVICE REQUEST";
+	public static final String REQUEST_CONVERT = "CSR";
 	public static final String TIME_CONNECTING = "TCON";
 	public static final String TIME_WAITED = "WAITED";
 	

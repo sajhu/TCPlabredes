@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 
 
 
+
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -15,7 +16,8 @@ public class ConexionServer extends Thread {
 	private static final String HOST = "localhost";
 	private static final int PORT = 9999;
 	
-	
+	public static final String nombreArchivo = "Wildlife";
+
 	
 	private SSLSocket socket;
 	private PrintWriter out;
@@ -47,24 +49,14 @@ public class ConexionServer extends Thread {
 		    
 		    System.out.println("Connection established.");
 
+		    // tenemos conexión, empezamos protocolo
 		    
-		    out.println("CONVERT SERVICE REQUEST");
+		    out.println("CSR:::1");
 		    
-		    String respuestaServidor = in.readLine();
-		    System.out.println(respuestaServidor);
-		    
+		    String respuestaServidor ="";
+    
 
-		    if(respuestaServidor.equals("0"))
-		    {
-		    	// enviar tiempo en cola 0;
-		    	//transmitir();
-		    }
-		    else if(respuestaServidor.equals("1"))
-		    {
-		    	// nos encolamos
-		    	// empezamos a contabilizar
-		    }
-		    
+
 		   	while(!in.readLine().equals("0")) // esperamos a que nos den permiso
 		    { }
 		   	
@@ -73,16 +65,14 @@ public class ConexionServer extends Thread {
 	    	 
 	    	 out.println("TCON:::" + (finCola - inicio));
 	    	 // transmitimos
-	    	 // transmitir();
+	    	 transmitir();
+	    	 
+	    	 
 	    	 
 		   	respuestaServidor = in.readLine(); // resultado de la conversión
 		   	System.out.println(respuestaServidor);
-	    	 finEspera = System.currentTimeMillis();
-	    	 out.println("WAITED:::" + (finEspera - finCola));
-
-		   	
-		   	
-		    
+	    	finEspera = System.currentTimeMillis();
+	    	out.println("WAITED:::" + (finEspera - finCola));		    
 		    
 		    	
 		}
@@ -95,6 +85,11 @@ public class ConexionServer extends Thread {
 		cerrar();
 	
 	 }
+
+	private void transmitir() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public void cerrar(){
 		try {
