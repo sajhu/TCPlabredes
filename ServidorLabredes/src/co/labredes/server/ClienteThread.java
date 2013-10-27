@@ -1,11 +1,18 @@
 package co.labredes.server;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.net.ssl.SSLSocket;
+
+import co.labredes.common.Constantes;
 
 public class ClienteThread extends Thread {
 
@@ -17,6 +24,7 @@ public class ClienteThread extends Thread {
 	private long id;
 
 	public Object objeto;
+	private String nombreArchivo;
 
 	public ClienteThread(MainServer main, SSLSocket clienteSocket, long contador) throws Exception {
 
@@ -100,10 +108,15 @@ public class ClienteThread extends Thread {
 			sendContinue();
 			
 			
-			String tiempo = getParameter(Constantes.TIME_CONNECTING);
-
+			String tiempoConectando = getParameter(Constantes.TIME_CONNECTING);
+			
+			
 			//TODO recibir el archivo y darle los paths unicos al convertidor
-
+			recibirArchivo();
+			
+			send(Constantes.FILE_RECIEVED);
+			
+			console("Recibido archivo " + nombreArchivo);
 			
 			// Se crea el convertidor
 			Convertidor convertidor = new Convertidor(this, "./data/Wildlife.avi", "./data/"+ id +"-wildlifeNew.mp4");
@@ -117,9 +130,9 @@ public class ClienteThread extends Thread {
 
 			send(resultado);
 
-			String tiempocola = getParameter(Constantes.TIME_WAITED);
+			String tiempoCola = getParameter(Constantes.TIME_WAITED);
 
-			server.escribirLog(id + "\t" +tiempo + "\t" + tiempocola);
+			server.escribirLog(id + "\t" +tiempoConectando + "\t" + tiempoCola);
 
 
 
@@ -127,15 +140,56 @@ public class ClienteThread extends Thread {
 
 		} catch (Exception e) {
 
-			//e.printStackTrace();
+			e.printStackTrace();
 
-
-			console("ERROR catch: " + e.getMessage());
+			send(Constantes.ERROR_500);
+			console("ERROR thread: " + e.getMessage());
 		}
 
 		cerrar();
 		console("conexión terminada.");
 
+	}
+
+	@SuppressWarnings("unused")
+	private void recibirArchivo() throws Exception 
+	{
+		nombreArchivo = "./data/"+ id +"_" + getParameter(Constantes.FILE_NAME)+".avi";
+		int tamano = Integer.parseInt(getParameter(Constantes.FILE_SIZE));
+		
+		
+		 int tamanoBuffer = 0;
+	        InputStream is = null;
+	        FileOutputStream fos = null;
+	        BufferedOutputStream bos = null;
+	        
+	        try {
+	           is = socket.getInputStream();
+	           tamanoBuffer = socket.getReceiveBufferSize();
+	           String direccion = nombreArchivo;
+		       fos = new FileOutputStream(direccion);
+		       bos = new BufferedOutputStream(fos);
+		       console("Se creó el archivo, ahora se debe escribir");
+		       File archivoAVI = new File(direccion);
+		        
+		    } catch (FileNotFoundException ex) {
+		    	console("No se encontró el archivo especificado ");
+		    }
+
+		    byte[] bytesRecibidos = new byte[tamanoBuffer];
+
+		    int cantidad=0;
+		    int entrada = 0;
+		    console("Is" + is);
+		    while ((cantidad = is.read(bytesRecibidos)) > 0 && entrada<2815 ) {
+		        bos.write(bytesRecibidos, 0, cantidad);			       
+		        //console("Está escribiendo cantidad " + cantidad + " entrada: " + entrada);
+			    bos.flush();
+			    entrada++;
+
+		    }
+		
+		
 	}
 
 	public long darId()

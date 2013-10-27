@@ -10,6 +10,8 @@ import it.sauronsoftware.jave.VideoSize;
 
 import java.io.File;
 
+import co.labredes.common.Constantes;
+
 
 public class Convertidor extends Thread {
 

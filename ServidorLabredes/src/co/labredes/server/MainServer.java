@@ -18,7 +18,7 @@ public class MainServer {
 
 	private static final int TAMANO_POOL = 4;
 	
-	private static final String LOG_PATH = "./data/";
+	private static final String LOG_PATH = "./logs/";
 
 	
 	private long contador;
@@ -42,9 +42,10 @@ public class MainServer {
 		
 		ipsActivas = new ArrayList<String>();
 		
-		File file = new File(LOG_PATH + "log_" +System.currentTimeMillis() + ".txt");
+		String logName = LOG_PATH + "log_" +System.currentTimeMillis() + ".txt";
+		File file = new File(logName);
 		
-		
+		console("Registrando log en " + logName);
 		
 		workQueue = new WorkQueue(TAMANO_POOL);    
 		console("Inicializado pool de conversión de " + TAMANO_POOL + " workers.");
@@ -55,6 +56,7 @@ public class MainServer {
 			// inicializar el log
 			log = new PrintWriter(file);
 			log.println("ID\tCON\tQUEUE");
+			log.flush();
 			// inicializar el servidor seguro
 	        SSLServerSocketFactory sslSrvFact = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
 	        
