@@ -57,7 +57,7 @@ public class ConexionServer extends Thread {
 
 			// tenemos conexión, empezamos protocolo
 
-			out.println("CSR:::1");
+			comando(Constantes.REQUEST_CONVERT, 1);
 
 			String respuestaServidor ="";
 
@@ -69,8 +69,7 @@ public class ConexionServer extends Thread {
 			// ya nos llegó el continue
 			finCola = System.currentTimeMillis();
 
-			out.println("TCON:::" + (finCola - inicio));
-			
+			comando(Constantes.TIME_CONNECTING, (finCola - inicio));
 			
 			// transmitimos
 			transmitir();
@@ -86,7 +85,8 @@ public class ConexionServer extends Thread {
 			System.out.println(respuestaServidor);
 			finEspera = System.currentTimeMillis();
 			System.out.println("WAITED:::" + (finEspera - finCola));
-			out.println("WAITED:::" + (finEspera - finCola));		    
+			
+			comando(Constantes.TIME_WAITED, (finEspera - finCola));
 
 
 		}
@@ -101,7 +101,8 @@ public class ConexionServer extends Thread {
 	}
 
 	private void transmitir() throws Exception {
-		out.println("FNAME:::"+nombreArchivo);
+		
+		comando(Constantes.FILE_NAME, nombreArchivo);
 
 		File archivoAVI = new File("./data/"+nombreArchivo+".avi");
 
@@ -110,8 +111,8 @@ public class ConexionServer extends Thread {
 		if (longitud > Integer.MAX_VALUE) {
 			System.out.println("El archivo es demasiado largo.");
 		}
-
-		out.println("FSIZE:::"+longitud);
+		
+		comando(Constantes.FILE_SIZE, longitud);
 		
 		
 		// SE EMPIEZA EL ENVIO DEL ARCHIVO
@@ -129,10 +130,30 @@ public class ConexionServer extends Thread {
 
 	    outfile.flush();
 		
-
+	    outfile.close();
+	    bis.close();
 
 	}
 
+	private void comando(String comando, String valor)
+	{
+		out.println(comando + Constantes.SEPARATOR + valor);
+		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valor);
+
+	}
+	private void comando(String comando, long valorL)
+	{
+		out.println(comando + Constantes.SEPARATOR + valorL);
+		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorL);
+
+	}
+	private void comando(String comando, int valorI)
+	{
+		out.println(comando + Constantes.SEPARATOR + valorI);
+		System.out.println("ENVIADO: " + comando + Constantes.SEPARATOR + valorI);
+
+	}
+	
 	public void cerrar(){
 		try {
 			System.out.println("Conexión terminada");
