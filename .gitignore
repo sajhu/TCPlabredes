@@ -2,6 +2,7 @@
 
 ClienteLabredes/data/
 ServidorLabredes/data/
+ClienteUDP/data/
 
 # Package Files #
 *.war
