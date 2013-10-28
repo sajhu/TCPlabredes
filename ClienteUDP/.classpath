@@ -14,5 +14,11 @@
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/plugin.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/resources.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/rt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Xuggle/share/java/jars/commons-cli.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Xuggle/share/java/jars/logback-classic.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Xuggle/share/java/jars/logback-core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Xuggle/share/java/jars/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Xuggle/share/java/jars/xuggle-xuggler.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Xuggle/share/java/jars/xuggle-xuggler-test.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
