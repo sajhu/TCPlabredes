@@ -115,8 +115,9 @@ public class ClienteThread extends Thread {
 			sendContinue();
 			
 			
-			String tiempoConectando = getParameter(Constantes.TIME_CONNECTING);
+			int tiempoConectando = Integer.parseInt(getParameter(Constantes.TIME_CONNECTING));
 			
+			long afterConectado = System.currentTimeMillis();
 			
 			//TODO recibir el archivo y darle los paths unicos al convertidor
 			recibirArchivo();
@@ -148,8 +149,9 @@ public class ClienteThread extends Thread {
 
 			//String tiempoCola = getParameter(Constantes.TIME_WAITED);
 
+			long fin = System.currentTimeMillis();
 			
-			server.escribirLog(id + "\t" +tiempoConectando + "\t" + (finCola-inicioCola));
+			server.escribirLog(id + "," +tiempoConectando + "," + (finCola-inicioCola) + "," + (fin-afterConectado + tiempoConectando));
 			
 			(new File(pathConvertido)).delete();
 

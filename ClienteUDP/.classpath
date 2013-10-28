@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/alt-rt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/charsets.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/deploy.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/javaws.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/jce.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/jfr.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/jfxrt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/jsse.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/management-agent.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/plugin.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/resources.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Oracle/JavaFX Scene Builder 1.1/runtime/jre/lib/rt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

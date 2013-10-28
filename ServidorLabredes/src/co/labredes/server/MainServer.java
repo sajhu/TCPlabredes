@@ -42,7 +42,7 @@ public class MainServer {
 		
 		ipsActivas = new ArrayList<String>();
 		
-		String logName = LOG_PATH + "log_" +System.currentTimeMillis() + ".txt";
+		String logName = LOG_PATH + "log_" +System.currentTimeMillis() + ".csv";
 		File file = new File(logName);
 		
 		console("Registrando log en " + logName);
@@ -59,7 +59,7 @@ public class MainServer {
 			
 			// inicializar el log
 			log = new PrintWriter(file);
-			log.println("ID\tCON\tQUEUE");
+			log.println("ID,CONEXION,COLA,TOTAL");
 			log.flush();
 			// inicializar el servidor seguro
 	        SSLServerSocketFactory sslSrvFact = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
